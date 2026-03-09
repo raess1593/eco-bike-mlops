@@ -23,12 +23,12 @@ def validate_data():
     
     suite = gx.ExpectationSuite(name="my_suite")
 
-    suite.add_expectation(ExpectColumnValuesToBeBetween('temp', min_value=-15, max_value=50))
-    suite.add_expectation(ExpectColumnValuesToBeBetween('humidity', min_value=0, max_value=100))
-    suite.add_expectation(ExpectColumnDistinctValuesToEqualSet('holiday', (0, 1)))
+    suite.add_expectation(ExpectColumnValuesToBeBetween(column='temp', min_value=-15, max_value=50))
+    suite.add_expectation(ExpectColumnValuesToBeBetween(column='humidity', min_value=0, max_value=100))
+    suite.add_expectation(ExpectColumnDistinctValuesToEqualSet(column='holiday', value_set={0, 1}))
     for c in ['temp', 'humidity', 'holiday']:
-        suite.add_expectation(ExpectColumnValuesToNotBeNull(c))
-        suite.add_expectation(ExpectColumnValuesToBeOfType(c, 'int64'))
+        suite.add_expectation(ExpectColumnValuesToNotBeNull(column=c))
+        suite.add_expectation(ExpectColumnValuesToBeOfType(column=c, type_='int64'))
 
     validation_definition = gx.ValidationDefinition(
         name="validation_definition",
@@ -42,12 +42,26 @@ def validate_data():
         result_format="SUMMARY"
     )
 
+    context.suites.add(suite)
+    context.validation_definitions.add(validation_definition)
+    context.checkpoints.add(checkpoint)
+
     results = checkpoint.run(batch_parameters={"dataframe": df})
     if results.success:
         return True
     else:
-        context.view_validation_result(results)
+        try:
+            context.view_validation_result(results)
+        except gx.exceptions.NoDataDocsError:
+            pass
         return False
 
 if __name__ == "__main__":
-    validate_data()
+    success = validate_data()
+    if success:
+        with open(".validate_success.txt", "w") as f:
+            f.write("Validation completed successfully")
+        print("✓ Validation successed")
+    else:
+        print("✗ Validation failed")
+        exit(1)

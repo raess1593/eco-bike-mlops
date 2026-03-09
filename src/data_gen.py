@@ -8,8 +8,7 @@ def generate_raw_data():
 
     n = 500
     data = {
-        'id': np.arange(n),
-        'temp': np.random.randint(-10, 40, n),
+        'temp': np.random.randint(-10, 40, n).astype(object),
         'humidity': np.random.randint(0, 100, n),
         'holiday': np.random.choice([0, 1], n)
     }
@@ -22,12 +21,17 @@ def generate_raw_data():
     df['demand'] += np.random.normal(0, 5, n)
     df['demand'] = df['demand'].clip(lower=0).astype(int)
 
-    for _ in range(20):
-        x = np.random.randint(n-1)
-        df.loc[x, 'temp'] = '?'
-        df.loc[x+1, 'humidity'] = -8
+    df['temp'] = df['temp'].astype('object')
 
-    df.to_csv(data_path)
+    r = np.random.choice([0, 1])
+    print(r)
+    if r == 0:
+        for _ in range(20):
+            x = np.random.randint(n-1)
+            df.loc[x, 'temp'] = '?'
+            df.loc[x+1, 'humidity'] = -8
+
+    df.to_csv(data_path, index=False)
 
 if __name__ == "__main__":
     generate_raw_data()

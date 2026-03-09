@@ -18,14 +18,15 @@ def clean_data():
             df[c] = np.where(invalid_condition, np.nan, df[c])
 
         median = df[c].median(skipna=True)
-        df[c] = df[c].fillna(median).astype('Int64') 
+        df[c] = df[c].fillna(median)
 
-    df['demand'] = pd.to_numeric(df['demand'], errors='coerce')
-    valid_condition = df['demand'].isin([0, 1])
-    df['demand'] = np.where(valid_condition, df['demand'], np.nan)
-    df = df.dropna(subset=['demand'])
+    df['holiday'] = pd.to_numeric(df['holiday'], errors='coerce')
+    valid_condition = df['holiday'].isin([0, 1])
+    df['holiday'] = np.where(valid_condition, df['holiday'], np.nan)
+    df = df.dropna(subset=['holiday'])
 
-    df.to_csv(cleaned_data_path, index=False)
+    df.to_csv(cleaned_data_path)
+    print(f"Cleaned data has been developed successfully -- {data_path}")
 
 if __name__ == "__main__":
     clean_data()
