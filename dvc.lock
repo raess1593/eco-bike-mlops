@@ -1,0 +1,54 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python ./src/data_validation.py
+    deps:
+    - path: ./data/raw_data.csv
+      hash: md5
+      md5: 59f34f147b60dcc77a5e70d918b8575e
+      size: 6277
+    - path: ./src/data_validation.py
+      hash: md5
+      md5: f53a5f5ac8d3b1e8fa518ed548f181b7
+      size: 2377
+    outs:
+    - path: .validate_success.txt
+      hash: md5
+      md5: 69be57b04bc9b9cba31c29a5ec4982bb
+      size: 33
+  clean:
+    cmd: python ./src/data_cleaning.py
+    deps:
+    - path: ./data/raw_data.csv
+      hash: md5
+      md5: 59f34f147b60dcc77a5e70d918b8575e
+      size: 6277
+    - path: ./src/data_cleaning.py
+      hash: md5
+      md5: f0a60dd6b2a39a77337fad1de8546458
+      size: 1037
+    - path: .validate_success.txt
+      hash: md5
+      md5: 69be57b04bc9b9cba31c29a5ec4982bb
+      size: 33
+    outs:
+    - path: ./data/cleaned_data.csv
+      hash: md5
+      md5: f3b8e8b24851fd06176d7e37f05cd326
+      size: 10168
+  train:
+    cmd: python ./src/train.py
+    deps:
+    - path: ./data/cleaned_data.csv
+      hash: md5
+      md5: f3b8e8b24851fd06176d7e37f05cd326
+      size: 10168
+    - path: ./src/train.py
+      hash: md5
+      md5: 253341af58eaeb69d5da7980cc405645
+      size: 1900
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 7082ddecd71ac56b6cb49dd0860f1419
+      size: 141681
