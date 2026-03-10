@@ -129,7 +129,7 @@ GET /predict?temp=22&humidity=55&holiday=0
 ### 1. Clone repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/raess1593/eco-bike-mlops
 cd eco-bike-mlops
 ```
 
@@ -184,7 +184,3 @@ python src/app.py
 - Pipeline dependencies and outputs are versioned through DVC metadata.
 - Experiments are tracked in MLflow.
 - API always loads the best available MLflow run under the configured criterion.
-
-## 👤 Author
-
-Project developed as an MLOps workflow for eco-bike demand prediction and deployment.
