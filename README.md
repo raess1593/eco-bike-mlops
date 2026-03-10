@@ -13,6 +13,8 @@ This repository implements a complete machine learning workflow:
 - Pipeline orchestration and reproducibility with DVC.
 - Online inference API with FastAPI + Uvicorn.
 
+![](/assets/pipeline.png)
+
 ## 🧱 Tech Stack
 
 - Python
