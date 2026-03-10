@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.*
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# MLflow local artifacts
+mlruns/
+mlflow.db
+
+# DVC-managed outputs
+.validate_success.txt
+data/cleaned_data.csv
+models/model.joblib

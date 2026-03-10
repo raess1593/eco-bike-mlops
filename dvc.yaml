@@ -1,0 +1,25 @@
+stages:
+  validate:
+    cmd: python ./src/data_validation.py
+    deps: 
+      - ./src/data_validation.py
+      - ./data/raw_data.csv
+    outs:
+      - .validate_success.txt
+  
+  clean:
+    cmd: python ./src/data_cleaning.py
+    deps: 
+      - ./src/data_cleaning.py
+      - ./data/raw_data.csv
+      - .validate_success.txt
+    outs:
+      - ./data/cleaned_data.csv
+    
+  train:
+    cmd: python ./src/train.py
+    deps: 
+      - ./src/train.py
+      - ./data/cleaned_data.csv
+    outs:
+      - models/model.joblib
